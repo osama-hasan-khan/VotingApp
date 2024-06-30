@@ -1,4 +1,4 @@
-import UserModel from "../models/userModel.js";
+import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "../utils/jwt.js";
 
@@ -6,7 +6,7 @@ const signupUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    const userAlreadyExist = await UserModel.findOne({ email });
+    const userAlreadyExist = await User.findOne({ email });
 
     if (userAlreadyExist) {
       return res.status(400).json({ error: "User already exists" });
@@ -15,7 +15,7 @@ const signupUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new UserModel({
+    const newUser = new User({
       username,
       email,
       password: hashedPassword,
@@ -29,7 +29,7 @@ const signupUser = async (req, res) => {
         _id: newUser._id,
         email: newUser.email,
         username: newUser.username,
-        profilePic: newUser.userProfilePic,
+        avatar_url: newUser.avatar_url,
       });
     }
   } catch (err) {
@@ -42,7 +42,7 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await UserModel.findOne({ email });
+    const user = await User.findOne({ email });
 
     const correctPassword = await bcrypt.compare(password, user.password);
 
@@ -79,14 +79,14 @@ const logoutUser = async (req, res) => {
 
 const userProfile = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user._id);
+    const user = await User.findById(req.user._id);
 
     if (user) {
       res.json({
         _id: user._id,
         username: user.username,
         email: user.email,
-        profile: user.userProfilePic,
+        avatar_url: user.avatar_url,
       });
     }
   } catch (err) {

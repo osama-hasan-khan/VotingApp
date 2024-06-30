@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    userProfilePic: {
+    avatar_url: {
       type: String,
       default: "https://avatars.githubusercontent.com/u/139032441?s=400&v=4",
     },
@@ -27,6 +27,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const UserModel = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
-export default UserModel;
+export default User;
