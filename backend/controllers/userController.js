@@ -2,7 +2,7 @@ import UserModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "../utils/jwt.js";
 
-const createUser = async (req, res) => {
+const signupUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
@@ -38,4 +38,29 @@ const createUser = async (req, res) => {
   }
 };
 
-export { createUser };
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await UserModel.findOne({ email });
+
+    const correctPassword = await bcrypt.compare(password, user.password);
+
+    if (!user || !correctPassword) {
+      return res.status(400).json({ error: "Invalid username or password" });
+    }
+
+    jwt(res, user._id);
+
+    res.status(200).json({
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.log("Error in signupUser: ", err.message);
+  }
+};
+
+export { signupUser, loginUser };
