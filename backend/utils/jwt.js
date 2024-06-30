@@ -3,7 +3,7 @@ import config from "../config/config.js";
 
 const generateToken = (res, userId) => {
   const token = jwt.sign({ userId }, config.jwtSecret, {
-    expiresIn: "1d",
+    expiresIn: "2d",
   });
 
   res.cookie("jwt", token, {

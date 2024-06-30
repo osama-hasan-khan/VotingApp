@@ -29,7 +29,7 @@ const signupUser = async (req, res) => {
         _id: newUser._id,
         email: newUser.email,
         username: newUser.username,
-        userProfilePic: newUser.userProfilePic,
+        profilePic: newUser.userProfilePic,
       });
     }
   } catch (err) {
@@ -59,8 +59,40 @@ const loginUser = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
-    console.log("Error in signupUser: ", err.message);
+    console.log("Error in loginUser: ", err.message);
   }
 };
 
-export { signupUser, loginUser };
+const logoutUser = async (req, res) => {
+  try {
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      expire: new Date(0),
+    });
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.log("Error in logoutUser: ", err.message);
+  }
+};
+
+const userProfile = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user._id);
+
+    if (user) {
+      res.json({
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        profile: user.userProfilePic,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.log("Error in userProfile: ", err.message);
+  }
+};
+
+export { signupUser, loginUser, logoutUser, userProfile };
