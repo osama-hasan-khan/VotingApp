@@ -5,6 +5,7 @@ import dataBaseConnection from "./config/db.js";
 import config from "./config/config.js";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
+import voteRouter from "./routes/voteRoutes.js";
 
 dataBaseConnection();
 
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use("/api/auth/users", userRouter);
+app.use("/api/vote", voteRouter);
 
 app.get("/", (req, res) => {
   res.send("SERVER IS RUNNING");

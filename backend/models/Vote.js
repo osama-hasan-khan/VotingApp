@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const VoteSchema = new mongoose.Schema({
   created_by: { type: Schema.Types.ObjectId, ref: "User", required: true },
