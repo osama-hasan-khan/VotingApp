@@ -1,6 +1,6 @@
 import React from "react";
 
-const Vote = ({ data }) => {
+const PastVote = ({ data }) => {
   return (
     <div className="border border-slate-700 p-2 shadow-[5px_5px_rgba(0,_98,_90,_0.4),_10px_10px_rgba(0,_98,_90,_0.3),_15px_15px_rgba(0,_98,_90,_0.2),_20px_20px_rgba(0,_98,_90,_0.1),_25px_25px_rgba(0,_98,_90,_0.05)]">
       <div className="flex gap-1.5 items-center">
@@ -17,4 +17,4 @@ const Vote = ({ data }) => {
   );
 };
 
-export default Vote;
+export default PastVote;
